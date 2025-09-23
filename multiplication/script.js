@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function generateTable() {
     table.innerHTML = "";
 
-    // Header row
     const headerRow = document.createElement("tr");
     const corner = document.createElement("th");
     corner.textContent = "×";
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     table.appendChild(headerRow);
 
-    // Data rows
     for (let r = 1; r <= 12; r++) {
       const row = document.createElement("tr");
       const th = document.createElement("th");
@@ -32,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         td.dataset.col = c;
         row.appendChild(td);
       }
-
       table.appendChild(row);
     }
 
@@ -66,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resizeCells() {
-    const totalCells = 13; // 12 + header
-    const containerWidth = window.innerWidth * 0.95; // 95% of viewport width
-    const containerHeight = window.innerHeight - 150; // subtract title/color picker
+    const totalCells = 13;
+    const containerWidth = window.innerWidth * 0.95;
+    const containerHeight = window.innerHeight - 150;
 
     const cellSize = Math.floor(Math.min(containerWidth, containerHeight) / totalCells);
 
@@ -83,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.documentElement.style.setProperty('--theme-color', color);
   }
 
-  // Initialize
   generateTable();
   applyThemeColor(themeColorInput.value);
 
