@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Integer Game with Rabbit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rabbit Integer Game</title>
 <style>
   html, body { height: 100%; margin: 0; padding: 0; }
 
   body {
     font-family: Arial, sans-serif;
-    color: white;
     text-align: center;
     background: linear-gradient(to bottom, #3cb371, #1e90ff);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    color: #fff;
   }
 
   .container {
@@ -173,8 +174,8 @@ async function rabbitJumpToAnswer(answer){
   rabbit.style.transform = (answer>currentNum)?"scaleX(-1)":"scaleX(1)";
 
   for(let i=currentNum+step;i!==answer+step;i+=step){
-    // Highlight number
-    for(let key in positions) positions[key].style.color="white"; // reset all
+    // Reset all numbers to white
+    for(let key in positions) positions[key].style.color="white";
     positions[i].style.color="yellow";
 
     const tick=positions[i];
@@ -210,27 +211,28 @@ async function generateProblem(){
   await rabbitAppear(num1);
 }
 
-// Check answer
+// Check answer (only jump if correct)
 async function checkAnswer(choice){
   const feedback=document.getElementById("feedback");
   const rewards=document.getElementById("rewards");
 
-  await rabbitJumpToAnswer(correctAnswer);
-
   if(choice===correctAnswer){
-    score++;
-    document.getElementById('score').innerText=score;
     feedback.innerText="✅ Correct!";
     feedback.style.color="#00e676";
 
+    // Increment score and rewards
+    score++;
+    document.getElementById('score').innerText=score;
     const star=document.createElement("span");
     star.innerText="⭐";
     rewards.appendChild(star);
     if(rewards.childNodes.length>5) rewards.removeChild(rewards.firstChild);
 
+    // Rabbit hops only after correct click
+    await rabbitJumpToAnswer(correctAnswer);
     await sleep(500);
-    generateProblem();
-  }else{
+    generateProblem();  // new problem after hop
+  } else {
     feedback.innerText="❌ Not quite!";
     feedback.style.color="#ff5252";
   }
